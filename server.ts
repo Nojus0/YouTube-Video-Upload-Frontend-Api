@@ -7,7 +7,7 @@ import { GenerateInnerTube, GetSAPSIDHASH } from "./youtubeTools";
 
 async function main() {
     await UploadVideo({
-        path: "C:\\Users\\Nojus\\Desktop\\BEST TOY EVER!-xZWglWyxFBM.webm",
+        path: "C:\\Users\\Nojus\\Desktop\\video.mp4",
         cookies: Cookies.Create({
             APISID: `${process.env.APISID}`,
             HSID: `${process.env.HSID}`,
@@ -15,9 +15,9 @@ async function main() {
             SID: `${process.env.SID}`,
             SSID: `${process.env.SSID}`
         }),
-        title: "coolerman",
+        title: "my title",
         pageid: `${process.env.PAGEID}`,
-        description: "dsdsdsd",
+        description: "my description",
         privateApiKey: `${process.env.PRIVATEAPIKEY}`,
         visibility: Visibility.unlisted
     })
