@@ -18,9 +18,9 @@
             SID: `SID COOKIE`,
             SSID: `SSID COOKIE`
         }),
-        title: "coolerman",
+        title: "my title",
         pageid: `${process.env.PAGEID}`,
-        description: "dsdsdsd",
+        description: "my description",
         privateApiKey: `PRIVATE API KEY`,
         visibility: Visibility.unlisted
 })
@@ -48,9 +48,9 @@
             SessionToken: "Session Token",
             path: "C:\\Users\\Nojus\\Desktop\\thumbnail.jpg"
         },
-        title: "coolerman",
+        title: "my title",
         pageid: `${process.env.PAGEID}`,
-        description: "dsdsdsd",
+        description: "my description",
         privateApiKey: `PRIVATE API KEY`,
         visibility: Visibility.unlisted
 })
