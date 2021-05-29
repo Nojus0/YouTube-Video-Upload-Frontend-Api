@@ -29,7 +29,7 @@ export async function UploadVideoBinary(Config: UploadData) {
     try {
         console.log(`Uploading Video Data to YouTube. videoId: ${Config.videoId}`);
         await axios(config);
-        console.log(`Successfully Uploaded, videoId: ${Config.videoId}`)
+        console.log(`Successfully Uploaded, videoId: ${Config.videoId}\nScottyId: ${Config.scottyResourceId}`)
         return ConfigSetUploadState(Config, UploadState.Success)
     } catch (error) {
         console.log(`Error occurred while uploading Binary`);

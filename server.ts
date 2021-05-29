@@ -7,7 +7,7 @@ import { GenerateInnerTube, GetSAPSIDHASH } from "./youtubeTools";
 
 async function main() {
     await UploadVideo({
-        path: "C:\\Users\\Nojus\\Desktop\\video.mp4",
+        path: "C:\\Users\\Nojus\\Desktop\\vudeinaxquality.mp4",
         cookies: Cookies.Create({
             APISID: `${process.env.APISID}`,
             HSID: `${process.env.HSID}`,
@@ -19,7 +19,7 @@ async function main() {
         pageid: `${process.env.PAGEID}`,
         description: "my description",
         privateApiKey: `${process.env.PRIVATEAPIKEY}`,
-        visibility: Visibility.unlisted
+        visibility: Visibility.private
     })
 }
 main();

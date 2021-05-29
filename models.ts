@@ -92,6 +92,7 @@ export class Cookies {
 
     ToString(){
         return `
+        CONSENT=YES+cb;
         SID=${this.SID};
         HSID=${this.HSID};
         SSID=${this.SSID};
