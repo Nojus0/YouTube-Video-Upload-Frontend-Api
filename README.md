@@ -1,3 +1,5 @@
+## OUTDATED - DOESN'T WORK
+### Youtube has added additional cookies for certain requests.
 ##### About
 ###### Uploads youtube videos with the private youtube api meant for uploading videos from the browser.
 ###### You can upload alot of videos without any quota caps, and much much higher limit for how much videos you can upload per day. I haven't tested it but i think its arround 50 per day.
