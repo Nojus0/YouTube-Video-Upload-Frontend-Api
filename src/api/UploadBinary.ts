@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { ConfigSetUploadState, UploadData, UploadState} from "./models";
+import { ConfigSetUploadState, UploadData, UploadState} from "../tools/models";
 
 export async function UploadVideoBinary(Config: UploadData) {
     if(Config.Status === UploadState.Failled) return Config;

@@ -1,8 +1,8 @@
 import axios, { AxiosRequestConfig } from "axios";
 import fs from "fs";
-import { GenerateInnerTube, GenerateSessionId, GetSAPSIDHASH, HashSha1 } from "./youtubeTools"
+import { GenerateInnerTube, GenerateSessionId, GetSAPSIDHASH, HashSha1 } from "../tools/youtubeTools"
 import path from "path"
-import { ConfigSetUploadState, UploadData, UploadState } from "./models";
+import { ConfigSetUploadState, UploadData, UploadState } from "../tools/models";
 
 export async function SendFileInfo(Config: UploadData): Promise<UploadData> {
     if(Config.Status === UploadState.Failled) return Config;

@@ -1,14 +1,14 @@
-import { UploadData } from "./models";
-import { SendFileInfo } from "./SendFileInfo";
-import { CreateVideo } from "./CreateVideo";
-import { UploadVideoBinary } from "./UploadBinary";
-import { UpdateMeta } from "./UpdateMeta"
+import { UploadData } from "../tools/models";
+import { SendFileInfo } from "../api/SendFileInfo";
+import { CreateVideo } from "../api/CreateVideo";
+import { UploadVideoBinary } from "../api/UploadBinary";
+import { UpdateMeta } from "../api/UpdateMeta"
 
 export async function UploadVideo(Config: UploadData) {
     Config = await SendFileInfo(Config);
     Config = await CreateVideo(Config);
 
-    if (Config.thumbnail?.path && Config.thumbnail.SessionToken !== undefined) await UpdateMeta(Config);
+    if (Config.thumbnail?.path && Config.thumbnail.SessionToken != null) await UpdateMeta(Config);
 
     await UploadVideoBinary(Config);
     return Config;

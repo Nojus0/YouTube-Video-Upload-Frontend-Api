@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { GenerateInnerTube, GenerateSessionId, GetSAPSIDHASH, HashSha1 } from "./youtubeTools"
-import { ConfigSetUploadState, UploadData, UploadState } from "./models";
-import { CreateVideoResponse } from "./CreateVideoResponse";
+import { GenerateInnerTube, GenerateSessionId, GetSAPSIDHASH, HashSha1 } from "../tools/youtubeTools"
+import { ConfigSetUploadState, UploadData, UploadState } from "../tools/models";
+import { CreateVideoResponse } from "../interfaces/CreateVideoResponse";
 
 export async function CreateVideo(Config: UploadData): Promise<UploadData> {
     if (Config.Status === UploadState.Failled) return Config;
@@ -28,11 +28,21 @@ export async function CreateVideo(Config: UploadData): Promise<UploadData> {
                 isDraft: false
             }
         },
+        "request": {
+            "returnLogEntry": true,
+            "internalExperimentFlags": [],
+            "sessionInfo": {
+                "token": Config.thumbnail?.SessionToken
+            }
+        },
+        "user": {
+            "onBehalfOfUser": Config.pageid
+        },
         botguardClientResponse: HashSha1(`${Math.random() * 100}`),
         context: {
             client: {
                 clientName: 62,
-                clientVersion: "1.20210223.01.00",
+                clientVersion: "1.20210623.00.00",
                 hl: "en-GB",
                 gl: "GB",
                 experimentsToken: "",

@@ -1,8 +1,6 @@
-import { config } from "dotenv"
-config();
-import { Visibility, Cookies } from "./models";
-import { CreateVideoWithUploadedScottyId, UploadVideo } from "./Upload";
-import { GenerateInnerTube, GetSAPSIDHASH } from "./youtubeTools";
+import "dotenv/config"
+import { Visibility, Cookies } from "./tools/models";
+import { UploadVideo } from "./logic/Upload";
 
 
 async function main() {
@@ -15,6 +13,10 @@ async function main() {
             SID: `${process.env.SID}`,
             SSID: `${process.env.SSID}`
         }),
+        thumbnail: {
+            SessionToken: process.env.SESSION_TOKEN!,
+            path: ""
+        },
         title: "my title",
         pageid: `${process.env.PAGEID}`,
         description: "my description",

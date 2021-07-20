@@ -1,5 +1,5 @@
-import { ConfigSetUploadState, UploadData, UploadState } from "./models";
-import { GenerateSessionId, GetSAPSIDHASH } from "./youtubeTools";
+import { ConfigSetUploadState, UploadData, UploadState } from "../tools/models";
+import { GenerateSessionId, GetSAPSIDHASH } from "../tools/youtubeTools";
 import fs from "fs"
 import axios, { AxiosRequestConfig } from "axios";
 
