@@ -1,38 +1,76 @@
 import puppeteer from "puppeteer-extra"
 import { LaunchOptions } from "puppeteer"
 import stealthPlugin from "puppeteer-extra-plugin-stealth";
-import { Cookies } from "../tools/models";
+import { CACHE_MANAGER, IDetails } from "../cache/Cache";
+import path from "path"
 puppeteer.use(stealthPlugin());
 
-export const OpenLoginPopup = () => new Promise<Cookies>(async (resolve, reject) => {
+export interface IYTcfg {
+    V1: string,
+    pageId: string,
+    channelId: string,
+    sessionInfo: string
+}
+
+export const OpenLoginPopup = () => new Promise<IDetails>(async (resolve, reject) => {
     // * puppeteer-extra LaunchOptions types are broken *
+
+    const CACHE_VAL = CACHE_MANAGER.get();
+
+    if (CACHE_VAL.cookies.HSID != null)
+        return resolve(CACHE_VAL);
+
     const browser = await puppeteer.launch({ headless: false } as LaunchOptions)
 
     const page = await browser.newPage();
-    
+
     const PAGES = await browser.pages();
     PAGES[0].close(); // stealth plugin devs are braindead plugin doesn't work on about blank page.
 
-    await page.goto('https://accounts.google.com/signin/v2/identifier?hl=en-GB&continue=https%3A%2F%2Fwww.youtube.com&flowName=GlifWebSignIn&flowEntry=ServiceLogin');
+    await page.goto('https://accounts.google.com/signin/v2/identifier?service=youtube&uilel=3&passive=true&continue=https%3A%2F%2Fwww.youtube.com%2Fsignin_prompt%3Fapp%3Ddesktop%26next%3Dhttps%253A%252F%252Fwww.youtube.com%252F&flowName=GlifWebSignIn&flowEntry=ServiceLogin');
 
     page.on('response', async (response) => {
         const DOMAIN = new URL(page.url());
 
-        if (response.status() != 302 || DOMAIN.host == "www.youtube.com") return;
+        if (DOMAIN.href == "https://www.youtube.com/" && response?.headers()["content-type"]?.includes("text/html;")) {
 
-        const COOKIES = await page.cookies();
+            const ytcfg: IYTcfg = await page.evaluate(
+                `
+            (()=> {
+                return {
+                    pageId: window.ytcfg?.data_?.DELEGATED_SESSION_ID,
+                    v1: window.ytcfg?.data_?.INNERTUBE_API_KEY,
+                    channelId: ytcfg.data_.CHANNEL_ID
+                }
+            })()
+            `)
 
-        await browser.close();
+            const COOKIES = await page.cookies();
+            await browser.close();
 
-        resolve(
-            Cookies.Create({
-                APISID: COOKIES.find(item => item.name == "APISID").value,
-                HSID: COOKIES.find(item => item.name == "HSID").value,
-                SAPISID: COOKIES.find(item => item.name == "SAPISID").value,
-                SID: COOKIES.find(item => item.name == "SID").value,
-                SSID: COOKIES.find(item => item.name == "SSID").value
-            })
-        )
+            const VALUE: IDetails = {
+                cookies: {
+                    APISID: COOKIES.find(item => item.name == "APISID").value,
+                    HSID: COOKIES.find(item => item.name == "HSID").value,
+                    SAPISID: COOKIES.find(item => item.name == "SAPISID").value,
+                    SID: COOKIES.find(item => item.name == "SID").value,
+                    SSID: COOKIES.find(item => item.name == "SSID").value
+                },
+                ytcfg
+            }
+
+            CACHE_MANAGER.set(VALUE);
+
+            resolve(VALUE)
+
+        }
+
+
     })
 
 });
+
+
+
+
+

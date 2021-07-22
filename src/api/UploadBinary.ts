@@ -1,8 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { ConfigSetUploadState, UploadData, UploadState} from "../tools/models";
+import { UploadData, UploadState } from "../tools/models";
 
 export async function UploadVideoBinary(Config: UploadData) {
-    if(Config.Status === UploadState.Failled) return Config;
 
     var config: AxiosRequestConfig = {
         method: 'post',
@@ -30,9 +29,7 @@ export async function UploadVideoBinary(Config: UploadData) {
         console.log(`Uploading Video Data to YouTube. videoId: ${Config.videoId}`);
         await axios(config);
         console.log(`Successfully Uploaded, videoId: ${Config.videoId}\nScottyId: ${Config.scottyResourceId}`)
-        return ConfigSetUploadState(Config, UploadState.Success)
     } catch (error) {
         console.log(`Error occurred while uploading Binary`);
-        return ConfigSetUploadState(Config, UploadState.Failled);
     }
 }
