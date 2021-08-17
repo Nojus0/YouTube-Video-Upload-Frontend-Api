@@ -8,8 +8,6 @@ puppeteer.use(stealthPlugin());
 export interface IYTcfg {
     V1: string,
     pageId: string,
-    channelId: string,
-    sessionInfo: string
 }
 
 export const OpenLoginPopup = () => new Promise<IDetails>(async (resolve, reject) => {
@@ -49,6 +47,7 @@ export const OpenLoginPopup = () => new Promise<IDetails>(async (resolve, reject
             await browser.close();
 
             const VALUE: IDetails = {
+                ...CACHE_VAL,
                 cookies: {
                     APISID: COOKIES.find(item => item.name == "APISID").value,
                     HSID: COOKIES.find(item => item.name == "HSID").value,
@@ -56,7 +55,7 @@ export const OpenLoginPopup = () => new Promise<IDetails>(async (resolve, reject
                     SID: COOKIES.find(item => item.name == "SID").value,
                     SSID: COOKIES.find(item => item.name == "SSID").value
                 },
-                ytcfg
+                ytcfg,
             }
 
             CACHE_MANAGER.set(VALUE);

@@ -5,21 +5,21 @@ import { IYTcfg } from "../logic/PopupLogin";
 
 export interface IDetails {
     cookies: ICookies,
-    ytcfg: IYTcfg
+    ytcfg: IYTcfg,
+    sessionInfo: string
 }
 
 export const CACHE_MANAGER = new Config<IDetails>(resolve("Cache.json"), {
     cookies: {
-        APISID: null,
-        HSID: null,
-        SAPISID: null,
-        SID: null,
-        SSID: null,
+        APISID: "",
+        HSID: "",
+        SAPISID: "",
+        SID: "",
+        SSID: "",
     },
     ytcfg: {
-        V1: null,
-        pageId: null,
-        channelId: null,
-        sessionInfo: null
-    }
+        V1: "",
+        pageId: "",
+    },
+    sessionInfo: ""
 });

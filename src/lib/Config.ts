@@ -37,7 +37,7 @@ export class Config<T> {
             }
         } catch (err) {
             console.log(`
-            [CONFIG] Error removing items from array config file ${this.path} error: ${err.message}
+            [CONFIG] Error removing items from array config file ${this.path} error: ${err}
             `)
             return false;
         }

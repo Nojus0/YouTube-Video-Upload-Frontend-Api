@@ -23,3 +23,21 @@ export function HashSha1(str: string) {
     sha.update(str);
     return sha.digest('hex');
 }
+
+export const SUPPORTED_FORMATS = [
+    ".mpeg-1",
+    ".mpeg-2",
+    ".mpeg4",
+    ".mp4",
+    ".mpg",
+    ".avi",
+    ".wmv",
+    ".mpegps",
+    ".flv",
+    ".3gpp",
+    ".webm",
+    ".dnxhr",
+    ".prores",
+    ".cineform",
+    ".hevc",
+]

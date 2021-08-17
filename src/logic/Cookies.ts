@@ -20,7 +20,7 @@ export class Cookies {
         this.SSID = cookies.SSID;
     }
 
-    static ToString({ APISID, SAPISID, SID, SSID, HSID }: ICookies) {
+    static Convert({ APISID, SAPISID, SID, SSID, HSID }: ICookies) {
         return `
         CONSENT=YES+cb;
         SID=${SID};
