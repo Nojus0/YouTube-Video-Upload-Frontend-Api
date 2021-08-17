@@ -1,7 +1,7 @@
 import { GenerateInnerTube, GetSAPSIDHASH, HashSha1, SUPPORTED_FORMATS } from "../tools/youtubeTools";
 import fs from "fs"
 import path from "path";
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { IDetails } from "../cache/Cache";
 import os from "os"
 import { IVideoUpload } from "../tools/models";
@@ -43,7 +43,7 @@ export class Upload {
 
     static async All(all: Upload[]) {
         await Promise.all(
-            all.map(upl => upl.Start())
+            all.map((upl, index) => upl.Start())
         );
     }
 
@@ -79,10 +79,13 @@ export class Upload {
             console.log(err);
         }
 
+        if (this.videoState.videoId == null) return console.log(`RATE`);
+
         try {
             console.log(`Uploading video file`);
             await this.uploadBinaryChunk();
             console.log(`Successfully uploaded video ${this.videoState.videoId}`);
+            // fs.unlinkSync(this.video.path);
         } catch (err) {
             console.log(err);
         }
@@ -92,7 +95,7 @@ export class Upload {
     uploadBinaryChunk(): Promise<void> {
         return new Promise(async (resolve, reject) => {
             const stream = fs.createReadStream(this.video.path, { highWaterMark: this.chunk_size });
-           
+
             let chunkNum = 0;
             const file_name = path.basename(this.video.path);
             const file_info = await fs.promises.stat(this.video.path)
@@ -101,6 +104,15 @@ export class Upload {
 
                 const buffer = Buffer.from(_chunk);
                 let IS_LAST_CHUNK = buffer.byteLength + (this.chunk_size * chunkNum) == file_info.size;
+                const OFFSET = this.chunk_size * chunkNum;
+
+                console.log(`[${this.videoState.videoId}]
+                    ISLAST: ${IS_LAST_CHUNK ? "TRUE" : "FALSE"}
+                    CURRENT CHUNK SIZE: ${buffer.byteLength}
+                    FILE SIZE: ${file_info.size}
+                    CHUNKS: ${chunkNum}
+                    OFFSET: ${OFFSET}
+                 `);
 
                 const config: AxiosRequestConfig = {
                     method: 'post',
@@ -114,7 +126,7 @@ export class Upload {
                         'accept': '*/*',
                         'origin': 'https://studio.youtube.com',
                         "x-goog-upload-command": IS_LAST_CHUNK ? "upload, finalize" : "upload",
-                        'x-goog-upload-offset': this.chunk_size * chunkNum,
+                        'x-goog-upload-offset': OFFSET,
                         'x-goog-upload-file-name': encodeURIComponent(file_name),
                         'referer': 'https://studio.youtube.com/',
                         'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
@@ -123,11 +135,16 @@ export class Upload {
                     data: buffer
                 };
 
-                stream.pause();
-                await axios(config);
-                stream.resume();
-
-                chunkNum++;
+                try {
+                    stream.pause();
+                    await axios(config);
+                    chunkNum++;
+                    stream.resume();
+                } catch (err) {
+                    console.log(`ERROR IN DATA SEND`);
+                    const error = err as AxiosError;
+                    console.log(error?.response?.data);
+                }
             })
 
             stream.on("close", () => resolve())
@@ -212,7 +229,7 @@ export class Upload {
             },
             data: req_data
         };
-
+        if(this.user.ytcfg.pageId == null) delete config.headers['x-goog-pageid'];
         const response = await axios(config);
         const data = response.data as CreateVideoResponse;
 

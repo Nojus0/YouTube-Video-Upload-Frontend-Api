@@ -15,7 +15,7 @@ export const OpenLoginPopup = () => new Promise<IDetails>(async (resolve, reject
 
     const CACHE_VAL = CACHE_MANAGER.get();
 
-    if (CACHE_VAL.cookies.HSID != null)
+    if (CACHE_VAL.cookies.HSID != "")
         return resolve(CACHE_VAL);
 
     const browser = await puppeteer.launch({ headless: false } as LaunchOptions)
