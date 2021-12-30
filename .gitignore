@@ -2,3 +2,4 @@
 node_modules
 Cache.json
 src/test.ts
+dist
