@@ -8,7 +8,6 @@ import fs from "fs";
 import path from "path";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { IDetails } from "../cache/Cache";
-import os from "os";
 import { IVideoUpload } from "../tools/models";
 import { Cookies } from "./Cookies";
 import { OpenLoginPopup } from "./PopupLogin";
@@ -110,11 +109,11 @@ export class Upload {
         const OFFSET = this.chunk_size * chunkNum;
 
         console.log(`[${this.videoState.videoId}]
-                    ISLAST: ${IS_LAST_CHUNK ? "TRUE" : "FALSE"}
+                    ISLAST CHUNK: ${IS_LAST_CHUNK ? "TRUE" : "FALSE"}
+                    CHUNK: ${chunkNum}
                     CURRENT CHUNK SIZE: ${buffer.byteLength}
-                    FILE SIZE: ${file_info.size}
-                    CHUNKS: ${chunkNum}
-                    OFFSET: ${OFFSET}
+                    VIDEO SIZE: ${file_info.size}
+                    VIDEO OFFSET: ${OFFSET}
                  `);
 
         const config: AxiosRequestConfig = {

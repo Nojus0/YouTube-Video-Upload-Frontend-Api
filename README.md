@@ -1,59 +1,37 @@
-## OUTDATED - DOESN'T WORK
-### Youtube has added additional cookies for certain requests.
-##### About
-###### Uploads youtube videos with the private youtube api meant for uploading videos from the browser.
-###### You can upload alot of videos without any quota caps, and much much higher limit for how much videos you can upload per day. I haven't tested it but i think its arround 50 per day.
+# Youtube Unofficial Upload API
 
-##### How to use
-###### Login into the account you want to Upload the videos to.
-###### Press F12 -> Application -> Cookies -> https://youtube.com
-###### You will need the private v1 api key. F12 -> Console -> [Type In the Console] -> ytcfg.data_.INNERTUBE_API_KEY 
-###### The output is your YouTube v1 api key
-###### The bellow is the simplest configuration, it will upload the video to the first channel of the account with no thumbnail.
-```
- await UploadVideo({
-        path: "C:\\Users\\Nojus\\Desktop\\video.mp4",
-        cookies: Cookies.Create({
-            APISID: `APISID COOKIE`,
-            HSID: `HSID COOKIE`,
-            SAPISID: `SAPISID COOKIE`,
-            SID: `SID COOKIE`,
-            SSID: `SSID COOKIE`
-        }),
-        title: "my title",
-        pageid: `${process.env.PAGEID}`,
-        description: "my description",
-        privateApiKey: `PRIVATE API KEY`,
-        visibility: Visibility.unlisted
-})
-```
+Upload youtube videos without using the official youtube API. Upload up to 50 videos a day or more. Without using up any API Quotas. When using the official youtube API you can only upload 3 youtube videos a day.
 
-###### Upload a video to a Different channel on the same account with a custom thumbnail
-###### Get the pageid by login in to the channel you want to upload to then F12 -> Console -> [Type in Console] -> ytcfg.data_.DELEGATED_SESSION_ID
-###### The output is your pageid.
+## Required cookies
 
-###### To add thumbnail you will need the the SessionToken and a path to the thumbnail.
-###### Get the SessionToken by https://studio.youtube.com -> Go to one of your uploaded videos edit details page then -> F12 -> Network -> XHR -> Edit Title and press Save -> Find Request with name "metadata_update?alt=..." -> Headers -> Scroll Down -> Request Payload -> Context -> Request -> SessionInfo -> Token 
-###### The Token value is your SessionToken
-###### The thumbnail format must be jpg changing the extension doesn't work.
-```
- await UploadVideo({
-        path: "C:\\Users\\Nojus\\Desktop\\video.mp4",
-        cookies: Cookies.Create({
-            APISID: `APISID COOKIE`,
-            HSID: `HSID COOKIE`,
-            SAPISID: `SAPISID COOKIE`,
-            SID: `SID COOKIE`,
-            SSID: `SSID COOKIE`
-        }),
-        thumbnail: {
-            SessionToken: "Session Token",
-            path: "C:\\Users\\Nojus\\Desktop\\thumbnail.jpg"
-        },
-        title: "my title",
-        pageid: `${process.env.PAGEID}`,
-        description: "my description",
-        privateApiKey: `PRIVATE API KEY`,
-        visibility: Visibility.unlisted
-})
-```
+`SID`
+`SSID`
+`HSID`
+`APISID`
+`SAPISID`
+
+## Required Tokens
+
+`pageId` this is used for if your youtube account has multiple channels.
+`INNERTUBE_API_KEY` youtube v2 api key, this dosen't use up any quota, you can even get one without log in.
+
+## Manual Tokens
+
+`sessionInfo` token generated client side using a generator function, you can find the function by searching `getSessionRisk` in the youtube studio core javascript bundle, the function which generates the token is a pollyfilled generator function. I haven't figured out how to make one without using the youtube website, so you have to get it manually.
+
+## How Obtain `sessionInfo` Token
+
+Goto youtube studio on the account you want to get the token. Go to one of your uploaded videos and then.
+`F12 -> Network -> Fetch/XHR -> Change the Title or Description of the video -> View Details of a request that looks like metadata_update -> Payload -> Context -> Request -> sessionInfo -> token`
+
+## CLI
+
+I haven't released a npm package for this library yet, so you have to link the cli yourself you can do this by opening a terminal in the project root and typing `npm install && npm run local-link-cli`
+
+## Adding the library to existing node project
+Complete the CLI step and go to your target node.js project root and type `npm link yt-upload`
+
+## class `Upload`
+
+This app uploads the video in chunks from your disk, so it doesn't need put the entire video file into RAM.
+This is very userful when uploading tons of videos at once, you can do this by using the `Upload.all` method, you can also adjust the chunk size by modifying `chunk_size` when constructing the Upload object. Note it must be a multiple of 262144 bytes / 256 KiB.

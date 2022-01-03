@@ -78,11 +78,11 @@ class Upload {
                 let IS_LAST_CHUNK = buffer.byteLength + this.chunk_size * chunkNum == file_info.size;
                 const OFFSET = this.chunk_size * chunkNum;
                 console.log(`[${this.videoState.videoId}]
-                    ISLAST: ${IS_LAST_CHUNK ? "TRUE" : "FALSE"}
+                    ISLAST CHUNK: ${IS_LAST_CHUNK ? "TRUE" : "FALSE"}
+                    CHUNK: ${chunkNum}
                     CURRENT CHUNK SIZE: ${buffer.byteLength}
-                    FILE SIZE: ${file_info.size}
-                    CHUNKS: ${chunkNum}
-                    OFFSET: ${OFFSET}
+                    VIDEO SIZE: ${file_info.size}
+                    VIDEO OFFSET: ${OFFSET}
                  `);
                 const config = {
                     method: "post",

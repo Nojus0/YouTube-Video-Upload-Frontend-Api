@@ -10,20 +10,19 @@ export interface IDetails {
   sessionInfo: string;
 }
 
-export const CACHE_MANAGER = new Config<IDetails>(
-  path.resolve(homedir(), "gcache.json"),
-  {
-    cookies: {
-      APISID: "",
-      HSID: "",
-      SAPISID: "",
-      SID: "",
-      SSID: "",
-    },
-    ytcfg: {
-      V1: "",
-      pageId: "",
-    },
-    sessionInfo: "",
-  }
-);
+export const CACHE_DIR = path.resolve(homedir(), "gcache.json");
+
+export const CACHE_MANAGER = new Config<IDetails>(CACHE_DIR, {
+  cookies: {
+    APISID: "",
+    HSID: "",
+    SAPISID: "",
+    SID: "",
+    SSID: "",
+  },
+  ytcfg: {
+    V1: "",
+    pageId: "",
+  },
+  sessionInfo: "",
+});

@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "echo BUILDING && tsc",
-    "local-link-cli": "echo \"The CLI should now be accessible by the command line, restart it for the changes to apply\" && npm link",
+    "local-link-cli": "npm build && echo \"The CLI should now be accessible by the command line, restart it for the changes to apply\" && npm link",
     "start": "node ./dist/index.js"
   },
   "bin": {

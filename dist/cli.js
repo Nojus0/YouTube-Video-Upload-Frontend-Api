@@ -11,13 +11,19 @@ const commander_1 = __importDefault(require("commander"));
 const path_1 = __importDefault(require("path"));
 const Cache_1 = require("./cache/Cache");
 const PopupLogin_1 = require("./logic/PopupLogin");
+const fs_1 = __importDefault(require("fs"));
+const _1 = require(".");
 async function runCli() {
     let cache = Cache_1.CACHE_MANAGER.get();
-    if (!cache || !cache.cookies.SID) {
+    if (!cache || !cache.cookies.SID || !fs_1.default.existsSync(Cache_1.CACHE_DIR)) {
         console.log(chalk_1.default.yellow("No session found, please login first. Details are stored in Cache.json"));
         const newCache = await (0, PopupLogin_1.OpenLoginPopup)();
         Cache_1.CACHE_MANAGER.set(newCache);
         cache = newCache;
+        console.log(`${chalk_1.default.green("Saved session to")} ${chalk_1.default.greenBright(Cache_1.CACHE_DIR)}`);
+    }
+    else {
+        console.log(`${chalk_1.default.green("Session found in")} ${chalk_1.default.greenBright(Cache_1.CACHE_DIR)}`);
     }
     if (!cache.sessionInfo) {
         console.log(chalk_1.default.cyan("Session info not found Cache.json file."));
@@ -53,12 +59,11 @@ async function runCli() {
         process.exit(1);
     }
     // 256 KiB not KB
-    const CHUNK_GRANULAIRTY = 262144;
     const upl = new Upload_1.Upload({
         title,
         description,
         visibility: visibility.toUpperCase(),
-        chunk_size: CHUNK_GRANULAIRTY * 20,
+        chunk_size: _1.CHUNK_GRANULARITY * 20,
         path: path_1.default.resolve(file),
     }, cache);
     await upl.Start();

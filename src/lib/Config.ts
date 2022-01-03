@@ -46,7 +46,7 @@ export class Config<T> {
         this.set(CURRENT);
         return true;
     }
-
+    
     set(obj: T) {
         try {
             fs.writeFileSync(this.path, JSON.stringify(obj, null, 2), this.encoding);

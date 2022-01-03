@@ -4,21 +4,30 @@ import { Visibility } from "./tools/models";
 import chalk from "chalk";
 import commander from "commander";
 import path from "path";
-import { CACHE_MANAGER } from "./cache/Cache";
+import { CACHE_MANAGER, CACHE_DIR } from "./cache/Cache";
 import { OpenLoginPopup } from "./logic/PopupLogin";
-
+import fs from "fs";
+import { CHUNK_GRANULARITY } from ".";
 export async function runCli() {
   let cache = CACHE_MANAGER.get();
 
-  if (!cache || !cache.cookies.SID) {
+  if (!cache || !cache.cookies.SID || !fs.existsSync(CACHE_DIR)) {
     console.log(
       chalk.yellow(
         "No session found, please login first. Details are stored in Cache.json"
       )
     );
+
     const newCache = await OpenLoginPopup();
     CACHE_MANAGER.set(newCache);
     cache = newCache;
+    console.log(
+      `${chalk.green("Saved session to")} ${chalk.greenBright(CACHE_DIR)}`
+    );
+  } else {
+    console.log(
+      `${chalk.green("Session found in")} ${chalk.greenBright(CACHE_DIR)}`
+    );
   }
 
   if (!cache.sessionInfo) {
@@ -84,14 +93,13 @@ export async function runCli() {
   }
 
   // 256 KiB not KB
-  const CHUNK_GRANULAIRTY = 262144;
 
   const upl = new Upload(
     {
       title,
       description,
       visibility: visibility.toUpperCase() as Visibility,
-      chunk_size: CHUNK_GRANULAIRTY * 20, // 5MB Chunks
+      chunk_size: CHUNK_GRANULARITY * 20, // 5MB Chunks
       path: path.resolve(file),
     },
     cache

@@ -3,8 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SUPPORTED_FORMATS = exports.HashSha1 = exports.GetSAPSIDHASH = exports.GenerateInnerTube = exports.GenerateSessionId = void 0;
+exports.SUPPORTED_FORMATS = exports.HashSha1 = exports.GetSAPSIDHASH = exports.GenerateInnerTube = exports.GenerateSessionId = exports.CHUNK_GRANULARITY = void 0;
 const crypto_1 = __importDefault(require("crypto"));
+exports.CHUNK_GRANULARITY = 262144;
 function GenerateSessionId() {
     let AcceptedChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     for (var a = Array(36), b = 0, c, d = 0; 36 > d; d++)
