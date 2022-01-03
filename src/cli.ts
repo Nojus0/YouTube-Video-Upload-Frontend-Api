@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 import { Upload } from "./logic/Upload";
 import { Visibility } from "./tools/models";
 import chalk from "chalk";
@@ -6,7 +7,7 @@ import path from "path";
 import { CACHE_MANAGER } from "./cache/Cache";
 import { OpenLoginPopup } from "./logic/PopupLogin";
 
-(async () => {
+export async function runCli() {
   let cache = CACHE_MANAGER.get();
 
   if (!cache || !cache.cookies.SID) {
@@ -96,4 +97,6 @@ import { OpenLoginPopup } from "./logic/PopupLogin";
     cache
   );
   await upl.Start();
-})();
+}
+
+runCli();

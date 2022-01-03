@@ -7,7 +7,7 @@ export interface IVideoUpload {
   path: string;
 
   /**
-   * Chunk size in bytes default is 104857600 Bytes(+-100Mb) The chunk size must be a multiple of 256 KB.
+   * Chunk size must be a multiple of 256 KiB. The default is 262144 * 20 bytes.
    */
   chunk_size?: number;
 
