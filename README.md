@@ -13,6 +13,7 @@ Upload youtube videos without using the official youtube API. Upload up to 50 vi
 ## Required Tokens
 
 `pageId` this is used for if your youtube account has multiple channels.
+
 `INNERTUBE_API_KEY` youtube v2 api key, this dosen't use up any quota, you can even get one without log in.
 
 ## Manual Tokens
