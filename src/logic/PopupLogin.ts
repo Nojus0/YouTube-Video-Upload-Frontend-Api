@@ -2,7 +2,6 @@ import puppeteer from "puppeteer-extra"
 import { LaunchOptions } from "puppeteer"
 import stealthPlugin from "puppeteer-extra-plugin-stealth";
 import { CACHE_MANAGER, IDetails } from "../cache/Cache";
-import path from "path"
 puppeteer.use(stealthPlugin());
 
 export interface IYTcfg {

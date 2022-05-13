@@ -7,7 +7,8 @@ import path from "path";
 import { CACHE_MANAGER, CACHE_DIR } from "./cache/Cache";
 import { OpenLoginPopup } from "./logic/PopupLogin";
 import fs from "fs";
-import { CHUNK_GRANULARITY } from ".";
+import { CHUNK_GRANULARITY } from "./tools/youtubeTools";
+
 export async function runCli() {
   let cache = CACHE_MANAGER.get();
 
