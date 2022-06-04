@@ -32,10 +32,7 @@ export class Upload {
   googleUpload: GoogleUpload;
   chunk_size: number;
 
-  constructor(
-    { chunk_size = 256000, ...video }: IVideoUpload,
-    user: IDetails
-  ) {
+  constructor({ chunk_size = 256000, ...video }: IVideoUpload, user: IDetails) {
     this.video = video;
     this.user = user;
     this.chunk_size = chunk_size;
@@ -108,13 +105,14 @@ export class Upload {
           buffer.byteLength + this.chunk_size * chunkNum == file_info.size;
         const OFFSET = this.chunk_size * chunkNum;
 
-        console.log(`[${this.videoState.videoId}]
-                    ISLAST CHUNK: ${IS_LAST_CHUNK ? "TRUE" : "FALSE"}
-                    CHUNK: ${chunkNum}
-                    CURRENT CHUNK SIZE: ${buffer.byteLength}
-                    VIDEO SIZE: ${file_info.size}
-                    VIDEO OFFSET: ${OFFSET}
-                 `);
+        console.log(`
+[${this.videoState.videoId}]
+Last Chunk: ${IS_LAST_CHUNK ? "True" : "False"}
+Current Chunk: ${chunkNum} / ${Math.floor(file_info.size / buffer.byteLength)-1}
+Chunk Size: ${buffer.byteLength}
+Video Size: ${file_info.size}
+Video Offset: ${OFFSET}
+`);
 
         const config: AxiosRequestConfig = {
           method: "post",
@@ -246,7 +244,6 @@ export class Upload {
   }
 
   async describeFile() {
-
     const video_file = await fs.promises.stat(this.video.path);
 
     const AxiosConfig: AxiosRequestConfig = {

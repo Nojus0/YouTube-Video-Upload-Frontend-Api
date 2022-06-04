@@ -15,7 +15,7 @@ export async function runCli() {
   if (!cache || !cache.cookies.SID || !fs.existsSync(CACHE_DIR)) {
     console.log(
       chalk.yellow(
-        "No session found, please login first. Details are stored in Cache.json"
+        `No session found, please login first. Details are stored in ${CACHE_DIR}`
       )
     );
 
@@ -32,7 +32,7 @@ export async function runCli() {
   }
 
   if (!cache.sessionInfo) {
-    console.log(chalk.cyan("Session info not found Cache.json file."));
+    console.log(chalk.cyan(`'sessionInfo' token is empty in ${CACHE_DIR}`));
     process.exit(1);
   }
 

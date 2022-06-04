@@ -67,8 +67,3 @@ export const OpenLoginPopup = () => new Promise<IDetails>(async (resolve, reject
     })
 
 });
-
-
-
-
-

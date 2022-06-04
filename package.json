@@ -5,8 +5,8 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "echo BUILDING && tsc",
-    "local-link-cli": "npm build && echo \"The CLI should now be accessible by the command line, restart it for the changes to apply\" && npm link",
-    "start": "node ./dist/index.js"
+    "local-link-cli": "npm run build && npm link && echo The CLI should now be accessible by the command line, restart it for the changes to apply",
+    "start": "node ./dist/cli.js"
   },
   "bin": {
     "yt-upload": "./dist/cli.js"

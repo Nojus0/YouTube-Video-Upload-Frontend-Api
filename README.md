@@ -12,9 +12,9 @@ Upload youtube videos without using the official youtube API. Upload up to 50 vi
 
 ## Required Tokens
 
-`pageId` this is used for if your youtube account has multiple channels.
+`pageId` this is used if your youtube account has multiple channels.
 
-`INNERTUBE_API_KEY` youtube v2 api key, this dosen't use up any quota, you can even get one without log in.
+`INNERTUBE_API_KEY` youtube v2 api key, this doesn't use up any quota, you can even get one without login in.
 
 ## Manual Tokens
 
@@ -24,6 +24,10 @@ Upload youtube videos without using the official youtube API. Upload up to 50 vi
 
 Goto youtube studio on the account you want to get the token. Go to one of your uploaded videos and then.
 `F12 -> Network -> Fetch/XHR -> Change the Title or Description of the video -> View Details of a request that looks like metadata_update -> Payload -> Context -> Request -> sessionInfo -> token`
+
+## How is `pageId` obtained
+
+`pageId` is used if your google account has multiple youtube channels, if this token is not set it will default to the first ever created youtube channel on your account, if you want to get this token for a different channel on your google account, switch to that specific channel open youtube studio and type `ytcfg.data_.DELEGATED_SESSION_ID` in the chrome dev tools console, the output number will be the pageId.
 
 ## CLI
 
