@@ -49,13 +49,19 @@ export async function runCli() {
       "The visibility of the video",
       "private"
     )
+    .option("-a --amount <amount>", "amount of times to upload the same video", "1")
     .version("1.0", "--version")
     .parse();
 
   const opts = program.opts();
 
-  let { file, title, description, visibility }: { [key: string]: string } =
-    opts;
+  let {
+    file,
+    title,
+    description,
+    visibility,
+    amount,
+  }: { [key: string]: string } = opts;
 
   visibility = visibility.toUpperCase();
 
@@ -93,19 +99,26 @@ export async function runCli() {
     process.exit(1);
   }
 
-  // 256 KiB not KB
+  const allUpls: Upload[] = [];
 
-  const upl = new Upload(
-    {
-      title,
-      description,
-      visibility: visibility.toUpperCase() as Visibility,
-      chunk_size: CHUNK_GRANULARITY * 20, // 5MB Chunks
-      path: path.resolve(file),
-    },
-    cache
-  );
-  await upl.Start();
+  for (let i = 0; i < parseInt(amount); i++) {
+    allUpls.push(
+      new Upload(
+        {
+          title,
+          description,
+          visibility: visibility.toUpperCase() as Visibility,
+          chunk_size: CHUNK_GRANULARITY * 20, // 5MB Chunks
+          path: path.resolve(file),
+        },
+        cache
+      )
+    );
+  }
+
+  // 256 KiB not KB
+  await Upload.All(allUpls)
+  console.log(`Finished`)
 }
 
 runCli();

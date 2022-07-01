@@ -108,7 +108,6 @@ export class Upload {
         console.log(`
 [${this.videoState.videoId}]
 Last Chunk: ${IS_LAST_CHUNK ? "True" : "False"}
-Current Chunk: ${chunkNum} / ${Math.floor(file_info.size / buffer.byteLength)-1}
 Chunk Size: ${buffer.byteLength}
 Video Size: ${file_info.size}
 Video Offset: ${OFFSET}

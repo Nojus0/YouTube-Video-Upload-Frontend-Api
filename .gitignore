@@ -2,3 +2,4 @@
 node_modules
 Cache.json
 dist
+*.json

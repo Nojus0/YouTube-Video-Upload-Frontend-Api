@@ -42,4 +42,5 @@ export const SUPPORTED_FORMATS = [
     ".prores",
     ".cineform",
     ".hevc",
+    ".mov"
 ]
