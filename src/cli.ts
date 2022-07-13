@@ -49,7 +49,16 @@ export async function runCli() {
       "The visibility of the video",
       "private"
     )
-    .option("-a --amount <amount>", "amount of times to upload the same video", "1")
+    .option(
+      "-a --amount <amount>",
+      "amount of times to upload the same video",
+      "1"
+    )
+    .option(
+      "-c --chunksize <chunksize>",
+      "Chunk size must be a multiple of 256 KiB, you provide a multiplier, default value is 30, 256 KiB * 30 == Chunk Size",
+      "30"
+    )
     .version("1.0", "--version")
     .parse();
 
@@ -59,6 +68,7 @@ export async function runCli() {
     file,
     title,
     description,
+    chunksize,
     visibility,
     amount,
   }: { [key: string]: string } = opts;
@@ -108,7 +118,7 @@ export async function runCli() {
           title,
           description,
           visibility: visibility.toUpperCase() as Visibility,
-          chunk_size: CHUNK_GRANULARITY * 20, // 5MB Chunks
+          chunk_size: CHUNK_GRANULARITY * parseInt(chunksize), // 5MB Chunks
           path: path.resolve(file),
         },
         cache
@@ -117,8 +127,8 @@ export async function runCli() {
   }
 
   // 256 KiB not KB
-  await Upload.All(allUpls)
-  console.log(`Finished`)
+  await Upload.All(allUpls);
+  console.log(`Finished`);
 }
 
 runCli();
