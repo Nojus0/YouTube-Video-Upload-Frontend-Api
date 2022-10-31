@@ -20,7 +20,7 @@ Upload youtube videos without using the official youtube API. Upload up to 50 vi
 
 `sessionInfo` token generated client side using a generator function, you can find the function by searching `getSessionRisk` in the youtube studio core javascript bundle, the function which generates the token is a pollyfilled generator function. I haven't figured out how to make one without using the youtube website, so you have to get it manually.
 
-## How Obtain `sessionInfo` Token
+## How To Obtain `sessionInfo` Token
 
 Goto youtube studio on the account you want to get the token. Go to one of your uploaded videos and then.
 `F12 -> Network -> Fetch/XHR -> Change the Title or Description of the video -> View Details of a request that looks like metadata_update -> Payload -> Context -> Request -> sessionInfo -> token`
